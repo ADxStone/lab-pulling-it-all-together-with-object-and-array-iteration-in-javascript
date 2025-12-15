@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+
 function gameObject() {
     return {
         home: {
@@ -113,4 +115,59 @@ function gameObject() {
             },
         },
     };
+}
+
+function getPlayer(playerName) {
+    const game = gameObject();
+    return game.home.players[playerName] || game.away.players[playerName] || null;
+}
+
+function getTeam(teamName) {
+    const game = gameObject();
+    return game.home.teamName === teamName ? game.home : game.away.teamName === teamName ? game.away : null;
+}
+
+function numPointsScored(playerName) {
+    const player = getPlayer(playerName);
+    return player ? player.points : null;
+}
+
+function shoeSize(playerName) {
+    const player = getPlayer(playerName);
+    return player ? player.shoe : null;
+}
+
+function teamColors(teamName) {
+    const team = getTeam(teamName);
+    return team ? team.colors : null;
+}
+
+function teamNames() {
+    const game = gameObject();
+    return [game.home.teamName, game.away.teamName];
+}
+
+function playerNumbers(teamName) {
+    const team = getTeam(teamName);
+    return team ? Object.values(team.players).map(player => player.number) : null;
+}
+
+function playerStats(playerName) {
+    return getPlayer(playerName);
+}
+
+function bigShoeRebounds() {
+    const game = gameObject();
+    let maxShoe = 0;
+    let rebounds = 0;
+    for (const team of [game.home, game.away]) {
+        for (const playerName in team.players) {
+            const player = team.players[playerName];
+            if (player.shoe > maxShoe) {
+                maxShoe = player.shoe;
+                rebounds = player.rebounds;
+            }
+        }
+    }
+    return rebounds;
 }
